@@ -87,21 +87,21 @@ http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt.
     
     $.MonthPicker = {
         i18n: {
-            year: "Year",
+            year: "Год",
             prevYear: "Previous Year",
             nextYear: "Next Year",
             next5Years: 'Jump Forward 5 Years',
             prev5Years: 'Jump Back 5 Years',
             nextLabel: "Next",
             prevLabel: "Prev",
-            buttonText: "Open Month Chooser",
+            buttonText: "Выбрать месяц и год",
             jumpYears: "Jump Years",
-            months: ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May', 'June', 'July', 'Aug.', 'Sep.', 'Oct.', 'Nov.', 'Dec.']
+            months: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
         }
     };
     
     var _markup =
-        '<div class="ui-widget-header ui-helper-clearfix ui-corner-all">' +
+        '<div class="ui-widget-header ui-helper-clearfix ui-corner-all year-chooser">' +
             '<table class="month-picker-year-table" width="100%" border="0" cellspacing="1" cellpadding="2">' +
                 '<tr>' +
                     '<td class="previous-year"><button /></td>' +

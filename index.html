@@ -3,19 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <title></title>
+
+
+
     <script src="scripts/jquery-2.1.4.js"></script>
     <script src="scripts/jquery-ui-1.11.4/jquery-ui.js"></script>
     <script src="scripts/MonthPicker.js"></script>
 
-    <link rel="stylesheet" href="scripts/jquery-ui-1.11.4/jquery-ui.css">
+    <link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" media="all" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="css/MonthPicker.css">
+    <link rel="stylesheet" href="css/style.css">
+
     <script>
         $(document).ready(function() {
-            $('.Default').MonthPicker();
+            $('.month-picker-input').MonthPicker(
+                    {
+                        Position : {at : "left+20 top+40"},
+                        OnAfterChooseMonth : function() {
+                            var selectedMonthYear = $(this).MonthPicker('GetSelectedMonthYear');
+                            $("#start_date").text(selectedMonthYear);
+                        }
+                    }
+            );
         });
     </script>
+
+
 </head>
 <body>
-    <input id="IconDemo" class='Default' type="text" />
+    <div id="start_date">
+
+    </div>
+    <input class='month-picker-hidden month-picker-input' type="text"  title="#"/>
 </body>
 </html>
