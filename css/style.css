@@ -1,5 +1,5 @@
 .top-menu {
-    height: 100px;
+    margin-top: 20px;
 }
 
 #tabs {
@@ -13,4 +13,16 @@
 
 #tabs li a {
     outline: none;
+}
+
+.report-select {
+
+}
+
+.dropdown {
+    margin-top: 8px;
+}
+
+#tab-content {
+    margin-top: 10px;
 }

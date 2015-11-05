@@ -72,7 +72,7 @@
 
             function createTabContent(contentId) {
                 //TODO по contentId сгенерировать контент (AJAX)
-                var newTabContent = $(tabContentTemplate.format(contentId, "some text"));
+                var newTabContent = $(tabContentTemplate.format(contentId, $("#template").html()));
                 newTabContent.appendTo("#tab-content");
             }
 
@@ -93,20 +93,51 @@
 <body>
 <div class="container">
 
-    <div class="top-menu">
-        <div class="dropdown">
-            <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">Выбрать отчет</button>
-            <ul class="dropdown-menu">
-                <li><a href="#report_1">Отчет 1</a></li>
-                <li><a href="#report_2">Отчет 2</a></li>
-                <li><a href="#report_3">Отчет 3</a></li>
-            </ul>
+
+    <div class="row top-menu">
+        <div class="col-md-10"><ul class="nav nav-tabs" id="tabs"></ul></div>
+        <div class="col-md-2">
+            <div class="dropdown">
+                <button class="btn dropdown-toggle report-select" type="button" data-toggle="dropdown">Выбрать отчет</button>
+                <ul class="dropdown-menu">
+                    <li><a href="#report_1">Отчет 1</a></li>
+                    <li><a href="#report_2">Отчет 2</a></li>
+                    <li><a href="#report_3">Отчет 3</a></li>
+                    <li><a href="#custom_report">CUSTOM!!!!!</a></li>
+                </ul>
+            </div>
         </div>
-
     </div>
-
-    <ul class="nav nav-tabs" id="tabs"></ul>
     <div class="tab-content" id="tab-content"></div>
+
+    <div class="hidden" id="template">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Firstname</th>
+                <th>Lastname</th>
+                <th>Email</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>John</td>
+                <td>Doe</td>
+                <td>john@example.com</td>
+            </tr>
+            <tr>
+                <td>Mary</td>
+                <td>Moe</td>
+                <td>mary@example.com</td>
+            </tr>
+            <tr>
+                <td>July</td>
+                <td>Dooley</td>
+                <td>july@example.com</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 
 </div>
     <!--<input class='month-picker-hidden month-picker-input' type="text"  title="#"/>-->
