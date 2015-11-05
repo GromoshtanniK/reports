@@ -9,31 +9,78 @@
     <script src="scripts/jquery-2.1.4.js"></script>
     <script src="scripts/jquery-ui-1.11.4/jquery-ui.js"></script>
     <script src="scripts/MonthPicker.js"></script>
+    <script src="scripts/bootstrap.js"></script>
+
 
     <link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" media="all" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="css/MonthPicker.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.css">
 
     <script>
         $(document).ready(function() {
-            $('.month-picker-input').MonthPicker(
-                    {
-                        Position : {at : "left+20 top+40"},
-                        OnAfterChooseMonth : function() {
-                            var selectedMonthYear = $(this).MonthPicker('GetSelectedMonthYear');
-                            $("#start_date").text(selectedMonthYear);
-                        }
-                    }
-            );
+//            $('.month-picker-input').MonthPicker(
+//                    {
+//                        Position : {at : "left+20 top+40"},
+//                        OnAfterChooseMonth : function() {
+//                            var selectedMonthYear = $(this).MonthPicker('GetSelectedMonthYear');
+//                            $("#start_date").text(selectedMonthYear);
+//                        }
+//                    }
+//            );
+
+            $("#kek").click(function () {
+//                var nextTab = $('.nav-tabs li').size() + 1;
+//                $('<li><a data-toggle="tab" href="#tab_'+ nextTab +'">Панель ' + nextTab + '</a></li>')
+//                        .appendTo('.nav-tabs');
+//                $('<div id="tab_' + nextTab + '" class="tab-pane fade">TEST</div>').appendTo('.tab-content');
+//                $('.nav-tabs a:last').tab('show');
+            });
+
+
+            $(".dropdown-menu li").click(function(e) {
+                alert(e);
+            });
+
         });
     </script>
 
 
 </head>
 <body>
-    <div id="start_date">
+<div class="container">
+
+    <div class="top-menu">
+        <button id="kek">kek</button>
+
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Выпадающий список</button>
+            <ul class="dropdown-menu">
+                <li><a href="#">HTML</a></li>
+                <li><a href="#">CSS</a></li>
+                <li><a href="#">JavaScript</a></li>
+            </ul>
+        </div>
 
     </div>
-    <input class='month-picker-hidden month-picker-input' type="text"  title="#"/>
+
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#tab_1">Панель 1</a></li>
+        <li><a data-toggle="tab" href="#tab_2">Панель 2</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="tab_1" class="tab-pane fade in active">
+            <h3>Панель 1</h3>
+            <p>Содержимое 1 панели...</p>
+        </div>
+        <div id="tab_2" class="tab-pane fade">
+            <h3>Панель 2</h3>
+            <p>Содержимое 2 панели...</p>
+        </div>
+    </div>
+</div>
+    <!--<input class='month-picker-hidden month-picker-input' type="text"  title="#"/>-->
 </body>
 </html>
