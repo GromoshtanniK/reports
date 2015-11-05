@@ -9,7 +9,7 @@
     <script src="scripts/jquery-2.1.4.js"></script>
     <script src="scripts/jquery-ui-1.11.4/jquery-ui.js"></script>
     <script src="scripts/MonthPicker.js"></script>
-    <script src="scripts/bootstrap.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
 
 
     <link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" media="all" rel="stylesheet" type="text/css" />
@@ -30,19 +30,61 @@
 //                    }
 //            );
 
-            $("#kek").click(function () {
-//                var nextTab = $('.nav-tabs li').size() + 1;
-//                $('<li><a data-toggle="tab" href="#tab_'+ nextTab +'">Панель ' + nextTab + '</a></li>')
-//                        .appendTo('.nav-tabs');
-//                $('<div id="tab_' + nextTab + '" class="tab-pane fade">TEST</div>').appendTo('.tab-content');
-//                $('.nav-tabs a:last').tab('show');
+
+            String.prototype.format = String.prototype.format = function () {
+                var args = arguments;
+                return this.replace(/\{\{|\}\}|\{(\d+)\}/g, function (m, n) {
+                    if (m == "{{") { return "{"; }
+                    if (m == "}}") { return "}"; }
+                    return args[n];
+                });
+            };
+
+            var tabTemplate = '<li><a data-toggle="tab" href="#{0}">{1}<button class="close closeTab" type="button" >×</button></a></li>';
+            var tabContentTemplate = '<div id="{0}" class="tab-pane fade">{1}</div>';
+
+            var openedTabs = {};
+
+
+            $(".dropdown-menu li a").click(function(event) {
+
+                var reportId = $(this).attr("href").substring(1);
+                var reportName = $(this).text();
+
+                if(reportId in openedTabs) {
+                    openedTabs[reportId].tab('show');
+                } else {
+                    var newTab = createTab(reportName, reportId);
+                    setUpCloseEvent(newTab);
+                    createTabContent(reportId);
+                    openedTabs[reportId] = newTab;
+                    newTab.tab('show');
+                }
+                event.preventDefault();
             });
 
 
-            $(".dropdown-menu li").click(function(e) {
-                alert(e);
-            });
+            function createTab(tabName, contentId) {
+                var tab = $(tabTemplate.format(contentId, tabName));
+                tab.appendTo("#tabs");
+                return tab.children("a");
+            }
 
+            function createTabContent(contentId) {
+                //TODO по contentId сгенерировать контент (AJAX)
+                var newTabContent = $(tabContentTemplate.format(contentId, "some text"));
+                newTabContent.appendTo("#tab-content");
+            }
+
+            function setUpCloseEvent(tab) {
+                tab.find(".closeTab").click(function() {
+                    var reportId = $(this).parent().attr("href").substring(1);
+                    $(this).parent().parent().remove();
+                    $('#' + reportId).remove();
+                    $('#tabs a:first').tab('show'); //TODO сюда прикрутить логику последней активной вкладки
+                    delete openedTabs[reportId];
+                });
+            }
         });
     </script>
 
@@ -52,34 +94,20 @@
 <div class="container">
 
     <div class="top-menu">
-        <button id="kek">kek</button>
-
         <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Выпадающий список</button>
+            <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">Выбрать отчет</button>
             <ul class="dropdown-menu">
-                <li><a href="#">HTML</a></li>
-                <li><a href="#">CSS</a></li>
-                <li><a href="#">JavaScript</a></li>
+                <li><a href="#report_1">Отчет 1</a></li>
+                <li><a href="#report_2">Отчет 2</a></li>
+                <li><a href="#report_3">Отчет 3</a></li>
             </ul>
         </div>
 
     </div>
 
-    <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#tab_1">Панель 1</a></li>
-        <li><a data-toggle="tab" href="#tab_2">Панель 2</a></li>
-    </ul>
+    <ul class="nav nav-tabs" id="tabs"></ul>
+    <div class="tab-content" id="tab-content"></div>
 
-    <div class="tab-content">
-        <div id="tab_1" class="tab-pane fade in active">
-            <h3>Панель 1</h3>
-            <p>Содержимое 1 панели...</p>
-        </div>
-        <div id="tab_2" class="tab-pane fade">
-            <h3>Панель 2</h3>
-            <p>Содержимое 2 панели...</p>
-        </div>
-    </div>
 </div>
     <!--<input class='month-picker-hidden month-picker-input' type="text"  title="#"/>-->
 </body>
