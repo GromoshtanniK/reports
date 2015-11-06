@@ -26,3 +26,37 @@
 #tab-content {
     margin-top: 10px;
 }
+
+.parameters {
+    padding: 20px;
+}
+
+#startPeriod, #endPeriod {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.content {
+    text-align: center;
+}
+
+.parameters {
+    text-align: left;
+}
+
+.apply {
+    margin-left: 20px;
+}
+
+#endPeriod {
+    margin-right: 55px;
+}
+
+.form-inline span {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.form-inline span:first-child {
+    margin-left: -10px;
+}
