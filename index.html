@@ -8,6 +8,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
     <script src="scripts/jquery.bootpag.js"></script>
     <script src="scripts/bootstrap-datepicker.js"></script>
+    <script src="scripts/bootstrap-datepicker.ru.js"></script>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/bootstrap-theme.css">
@@ -24,9 +25,41 @@
                 });
             };
 
+            Date.prototype.monthDays= function(){
+                var d = new Date(this.getFullYear(), this.getMonth() + 1, 0);
+                return d.getDate();
+            };
+
+            Date.prototype.getNormalizedMonth= function(){
+                var month = (this.getMonth() + 1).toString();
+                if(month.length === 1) {
+                    month = "0" + month;
+                }
+                return month;
+            };
+
+
+
             var tabTemplate = '<li><a data-toggle="tab" href="#{0}">{1}<button class="close closeTab" type="button" >×</button></a></li>';
             var tabContentTemplate = '<div id="{0}" class="tab-pane fade">{1}</div>';
             var paginationTemplate = '<p class="pagination"></p>';
+            var datePickerTemplate =
+                    '<div class="parameters">' +
+                        '<div class="form-inline">' +
+                            '<span>Отчетный период с</span>' +
+                            '<div class="input-group date dateInput" id="startPeriod">' +
+                                '<input class="form-control" size="16" type="text" readonly>' +
+                                '<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>' +
+                            '</div> ' +
+                            '<span>по</span> ' +
+                            '<div class="input-group date dateInput" id="endPeriod">' +
+                                '<input class="form-control" size="16" type="text" readonly>' +
+                                '<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>' +
+                            '</div>' +
+                            '<button class="btn apply" type="button">Применить</button>' +
+                        '</div>' +
+                    '</div>' + '<div class="tabContent"></div>';
+
 
             var openedTabs = {};
 
@@ -56,25 +89,55 @@
             }
 
             function createTabContent(contentId) {
-
-                //TODO по contentId сгенерировать контент (AJAX)
-                var content = $("#template").html();
-                content = content + paginationTemplate;
-
-                var newTabContent = $(tabContentTemplate.format(contentId, content));
+                var newTabContent = $(tabContentTemplate.format(contentId, datePickerTemplate));
                 newTabContent.appendTo("#tab-content");
-                setUpDatePicker(newTabContent);
-                setUpPagination(newTabContent, 11); //TODO totalPages динамически из AJAX
+                setUpDatePickers(newTabContent);
+                setUpApplyButtonEvent(newTabContent, contentId);
             }
 
-            function setUpDatePicker(tabContent) {
-                tabContent.find(".dateInput").each(function(){
-                    $(this).datepicker({
-                        format: "mm-yyyy",
-                        startView: "months",
-                        minViewMode: "months",
-                        autoclose: true
+            function setUpDatePickers(tabContent) {
+
+                var options = {
+                    startView: "months",
+                    minViewMode: "months",
+                    autoclose: true,
+                    language: 'ru'
+                };
+
+                tabContent.find("#startPeriod").datepicker($.extend(options, {
+                    format: {
+                        toDisplay: function (date) {
+                            return "01." + date.getNormalizedMonth() + "." + date.getFullYear();
+                        },
+                        toValue: function () {
+                            return "";
+                        }
+                    }
+                }));
+
+                tabContent.find("#endPeriod").datepicker($.extend(options, {
+                    format: {
+                        toDisplay: function (date) {
+                            return date.monthDays() + "." + date.getNormalizedMonth() + "." + date.getFullYear();
+                        },
+                        toValue: function () {
+                            return "";
+                        }
+                    }
+                }));
+            }
+
+            function setUpApplyButtonEvent(tabContent, contentId) {
+                tabContent.find(".apply").click(function(event){
+
+                    //TODO по contentId сгенерировать контент (AJAX)
+                    var content = $("#template").html();
+
+                    content = content + paginationTemplate;
+                    $("#" + contentId + " .tabContent").replaceWith(function() {
+                        return $(content).fadeIn();
                     });
+                    setUpPagination(tabContent, 11);  //TODO totalPages(второй параметр)динамически из AJAX
                 });
             }
 
@@ -88,7 +151,7 @@
                     first: '←',
                     last: '→'
                 }).on("page", function(event, /* page number here */ num) {
-                    //TODO если обновится контент?
+                    //TODO тут обробатываем педжинацию, а если обновится контент?
                     var contentId = $(this).parent().attr("id");
                 });
             }
@@ -131,22 +194,6 @@
 
     <div class="hidden" id="template">
 
-        <div class="parameters">
-            <div class="form-inline">
-                <span>Отчетный период с</span>
-                <div class="input-group date dateInput">
-                    <input class="form-control" size="16" type="text" readonly>
-                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                </div>
-                <span>по</span>
-                <div class="input-group date dateInput">
-                    <input class="form-control" size="16" type="text" readonly>
-                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                </div>
-                <button class="btn apply" type="button">Применить</button>
-            </div>
-        </div>
-
         <!--будет убрано-->
         <table class="table table-bordered">
             <thead>
@@ -171,6 +218,11 @@
                 <td>July</td>
                 <td>Dooley</td>
                 <td>july@example.com</td>
+            </tr>
+            <tr>
+                <td>John</td>
+                <td>Doe</td>
+                <td>john@example.com</td>
             </tr>
             </tbody>
         </table>

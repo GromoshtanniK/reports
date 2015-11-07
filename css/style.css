@@ -31,17 +31,17 @@
     padding: 20px;
 }
 
-#startPeriod, #endPeriod {
-    padding-left: 10px;
-    padding-right: 10px;
-}
-
 .content {
     text-align: center;
 }
 
+.content table {
+    text-align: left;
+}
+
 .parameters {
     text-align: left;
+    padding-bottom: 25px;
 }
 
 .apply {
