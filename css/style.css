@@ -1,3 +1,8 @@
+.body {
+    margin-left: calc(100vw - 100%) !important;
+    margin-right: 0 !important;
+}
+
 .top-menu {
     margin-top: 20px;
 }
@@ -48,7 +53,7 @@
     margin-left: 20px;
 }
 
-#endPeriod {
+.endPeriod {
     margin-right: 55px;
 }
 
@@ -59,4 +64,8 @@
 
 .form-inline span:first-child {
     margin-left: -10px;
+}
+
+.tabPagination {
+
 }
